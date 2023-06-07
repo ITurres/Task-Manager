@@ -1,4 +1,6 @@
-const createTaskTemplate = (task) => `<div class="w-100 p-3 ps-2 d-flex">
+const createTaskTemplate = (
+  task
+) => `<div id="${task.index}" class="w-100 p-3 ps-2 d-flex">
 <input type="checkbox" name="task-complete" class="m-2" />
 <input
   type="text"
