@@ -96,7 +96,7 @@
 
 ---
 
-<!-- !LIVE DEMO ====> ONCE THE PROJECT CAN BE DEPLOYED I WILL ENABLE THIS SECTION -->
+<!-- !LIVE DEMO ===> ONCE THE PROJECT CAN BE DEPLOYED I WILL ENABLE THIS SECTION -->
 <!--
 ## 🚀 Live Demo <a name="live-demo"></a>
 
