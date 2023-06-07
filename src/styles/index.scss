@@ -1,0 +1,64 @@
+$button-bg: #fff;
+$button-font-color: #8f8f8f;
+$button-darker-font-color: #555;
+
+body {
+  background-color: #090930;
+}
+
+.task--wrapper {
+  padding: 0;
+
+  @media (min-width: 768px) {
+    & {
+      width: 60%;
+    }
+  }
+}
+
+input[type='text'] {
+  outline: none;
+
+  &::-webkit-input-placeholder {
+    font-style: italic;
+  }
+
+  &::-moz-placeholder {
+    font-style: italic;
+  }
+
+  &:-moz-placeholder {
+    font-style: italic;
+  }
+
+  &:-ms-input-placeholder {
+    font-style: italic;
+  }
+}
+
+input[type='checkbox']:checked {
+  accent-color: #2ecd2e;
+}
+
+.my-button {
+  background-color: $button-bg;
+}
+
+.my-button.clear-all {
+  background-color: #e2e2e2;
+}
+
+.my-button,
+.my-button.clear-all {
+  color: $button-font-color;
+  border: none;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: $button-darker-font-color;
+  }
+}
+
+.my-button.draggable {
+  cursor: move;
+}
