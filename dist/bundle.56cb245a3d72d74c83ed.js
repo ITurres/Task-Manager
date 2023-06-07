@@ -2,6 +2,104 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/markup-injectors/update-tasklist-dom-injection.js":
+/*!******************************************************************!*\
+  !*** ./src/js/markup-injectors/update-tasklist-dom-injection.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _user_controller_task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../user-controller/task-manager-class.js */ "./src/js/user-controller/task-manager-class.js");
+/* harmony import */ var _markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../markup-templates/create-task-template.js */ "./src/js/markup-templates/create-task-template.js");
+
+
+var updateTaskListOnDOM = function updateTaskListOnDOM() {
+  var taskListHolder = document.querySelector('[data-task-list-holder]');
+  var taskList = new _user_controller_task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]().getTaskList();
+  taskList.forEach(function (task) {
+    taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(task);
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateTaskListOnDOM);
+
+/***/ }),
+
+/***/ "./src/js/markup-templates/create-task-template.js":
+/*!*********************************************************!*\
+  !*** ./src/js/markup-templates/create-task-template.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var createTaskTemplate = function createTaskTemplate(task) {
+  return "<div id=\"".concat(task.index, "\" class=\"w-100 p-3 ps-2 d-flex\">\n<input type=\"checkbox\" name=\"task-complete\" class=\"m-2\" />\n<input\n  type=\"text\"\n  value=\"").concat(task.description, "\"\n  class=\"border-0 ps-2 w-100\"\n  readonly\n/>\n<button\n  type=\"button\"\n  class=\"my-button draggable align-self-start ms-3\"\n  data-draggable-task\n>\n  <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n</button>\n</div>");
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createTaskTemplate);
+
+/***/ }),
+
+/***/ "./src/js/user-controller/task-manager-class.js":
+/*!******************************************************!*\
+  !*** ./src/js/user-controller/task-manager-class.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var TaskManager = /*#__PURE__*/function () {
+  function TaskManager() {
+    _classCallCheck(this, TaskManager);
+    this.taskList = [{
+      description: 'wash the dishes',
+      completed: false,
+      index: 1
+    }, {
+      description: 'complete To Do list project',
+      completed: false,
+      index: 2
+    }];
+  }
+  _createClass(TaskManager, [{
+    key: "getTaskList",
+    value: function getTaskList() {
+      return this.taskList;
+    }
+  }]);
+  return TaskManager;
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TaskManager);
+
+/***/ }),
+
+/***/ "./src/js/user-controller/user-controller-events.js":
+/*!**********************************************************!*\
+  !*** ./src/js/user-controller/user-controller-events.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../markup-injectors/update-tasklist-dom-injection.js */ "./src/js/markup-injectors/update-tasklist-dom-injection.js");
+
+window.addEventListener('load', function () {
+  return (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+});
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/index.scss":
 /*!************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/index.scss ***!
@@ -603,9 +701,11 @@ var __webpack_exports__ = {};
   \*************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../styles/index.scss */ "./src/styles/index.scss");
+/* harmony import */ var _user_controller_user_controller_events_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user-controller/user-controller-events.js */ "./src/js/user-controller/user-controller-events.js");
+
 
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.60f14102e4bafa8f3ff8.js.map
+//# sourceMappingURL=bundle.56cb245a3d72d74c83ed.js.map
