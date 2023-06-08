@@ -18,7 +18,12 @@ class TaskManager {
 
   updateTask(task) {
     if (task.index in this.taskList) {
-      this.taskList[task.index].description = task.newDescription;
+      if ('description' in task) {
+        this.taskList[task.index].description = task.description;
+      }
+      if ('completed' in task) {
+        this.taskList[task.index].completed = task.completed;
+      }
       this.updateLocalStorage();
     }
   }
