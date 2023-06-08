@@ -1,7 +1,11 @@
 const createTaskTemplate = (
   task
-) => `<div id="${task.index}" class="w-100 p-3 ps-2 d-flex">
-<input type="checkbox" class="m-2" data-task-checkbox/>
+) => `<div id="${task.index}" class="w-100 p-3 ps-2 d-flex"
+  data-task-holder
+>
+<input type="checkbox" class="m-2" data-task-checkbox
+  data-completed="${task.completed}"
+/>
 <input
   type="text"
   value="${task.description}"
@@ -9,13 +13,6 @@ const createTaskTemplate = (
   data-task
   readonly
 />
-<button
-  type="button"
-  class="my-button trash align-self-start ms-3"
-  data-delete-task
->
-  <i class="fa-solid fa-trash"></i>
-</button>
 <button
   type="button"
   class="my-button draggable align-self-start ms-3"
