@@ -1,6 +1,6 @@
-const getParentElementId = (element, type) => {
+const getParentElement = (element, type) => {
   const parent = element.closest(type);
-  return parent.id;
+  return parent;
 };
 
-export default getParentElementId;
+export default getParentElement;
