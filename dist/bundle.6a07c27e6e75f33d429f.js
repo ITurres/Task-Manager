@@ -16,12 +16,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../markup-templates/create-task-template.js */ "./src/js/markup-templates/create-task-template.js");
 
 
-var updateTaskListOnDOM = function updateTaskListOnDOM() {
+var updateTaskListOnDOM = function updateTaskListOnDOM(updateWhen) {
   var taskListHolder = document.querySelector('[data-task-list-holder]');
   var taskList = new _user_controller_task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]().getTaskList();
-  taskList.forEach(function (task) {
-    taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(task);
-  });
+  if (updateWhen === 'lastTask') {
+    taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(taskList[taskList.length - 1]);
+  } else if (updateWhen === 'fullList') {
+    taskList.forEach(function (task) {
+      taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(task);
+    });
+  }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateTaskListOnDOM);
 
@@ -38,7 +42,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 var createTaskTemplate = function createTaskTemplate(task) {
-  return "<div id=\"".concat(task.index, "\" class=\"w-100 p-3 ps-2 d-flex\">\n<input type=\"checkbox\" name=\"task-complete\" class=\"m-2\" />\n<input\n  type=\"text\"\n  value=\"").concat(task.description, "\"\n  class=\"border-0 ps-2 w-100\"\n  readonly\n/>\n<button\n  type=\"button\"\n  class=\"my-button draggable align-self-start ms-3\"\n  data-draggable-task\n>\n  <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n</button>\n</div>");
+  return "<div id=\"".concat(task.index, "\" class=\"w-100 p-3 ps-2 d-flex\">\n<input type=\"checkbox\" class=\"m-2\" data-task-checkbox/>\n<input\n  type=\"text\"\n  value=\"").concat(task.description, "\"\n  class=\"border-0 ps-2 w-100\"\n  data-task\n  readonly\n/>\n<button\n  type=\"button\"\n  class=\"my-button trash align-self-start ms-3\"\n  data-delete-task\n>\n  <i class=\"fa-solid fa-trash\"></i>\n</button>\n<button\n  type=\"button\"\n  class=\"my-button draggable align-self-start ms-3\"\n  data-draggable-task\n>\n  <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n</button>\n</div>");
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createTaskTemplate);
 
@@ -63,17 +67,46 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var TaskManager = /*#__PURE__*/function () {
   function TaskManager() {
     _classCallCheck(this, TaskManager);
-    this.taskList = [{
-      description: 'wash the dishes',
-      completed: false,
-      index: 1
-    }, {
-      description: 'complete To Do list project',
-      completed: false,
-      index: 2
-    }];
+    this.taskList = JSON.parse(localStorage.getItem('taskList')) || [];
   }
   _createClass(TaskManager, [{
+    key: "updateLocalStorage",
+    value: function updateLocalStorage() {
+      localStorage.setItem('taskList', JSON.stringify(this.taskList));
+    }
+  }, {
+    key: "addNewTask",
+    value: function addNewTask(task) {
+      this.taskList.push({
+        description: task.description,
+        completed: false,
+        index: this.taskList.length
+      });
+      this.updateLocalStorage();
+    }
+  }, {
+    key: "updateTask",
+    value: function updateTask(task) {
+      if (task.index in this.taskList) {
+        this.taskList[task.index].description = task.newDescription;
+        this.updateLocalStorage();
+      }
+    }
+  }, {
+    key: "removeTask",
+    value: function removeTask(taskIndex) {
+      this.taskList.splice(taskIndex, 1);
+      this.updateTaskIndex();
+      this.updateLocalStorage();
+    }
+  }, {
+    key: "updateTaskIndex",
+    value: function updateTaskIndex() {
+      this.taskList.forEach(function (task, index) {
+        task.index = index;
+      });
+    }
+  }, {
     key: "getTaskList",
     value: function getTaskList() {
       return this.taskList;
@@ -93,10 +126,71 @@ var TaskManager = /*#__PURE__*/function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../markup-injectors/update-tasklist-dom-injection.js */ "./src/js/markup-injectors/update-tasklist-dom-injection.js");
+/* harmony import */ var _utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/get-parent-element-id.js */ "./src/js/utils/get-parent-element-id.js");
+/* harmony import */ var _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./task-manager-class.js */ "./src/js/user-controller/task-manager-class.js");
 
-window.addEventListener('load', function () {
-  return (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+
+
+if (window.localStorage.length > 0) {
+  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__["default"])('fullList');
+}
+document.querySelector('[data-refresh-btn]').addEventListener('click', function () {
+  window.location.reload();
 });
+document.querySelector('[data-add-task]').addEventListener('click', function () {
+  var taskData = document.querySelector('[name="new-task"]');
+  if (!taskData.value) {
+    return;
+  }
+  var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  taskList.addNewTask({
+    description: taskData.value
+  });
+  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__["default"])('lastTask');
+  window.location.reload();
+});
+document.querySelectorAll('[data-delete-task]').forEach(function (button) {
+  button.addEventListener('click', function () {
+    var parentDivId = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_1__["default"])(button, 'div');
+    var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    taskList.removeTask(parentDivId);
+    window.location.reload();
+  });
+});
+document.querySelectorAll('[data-task]').forEach(function (task) {
+  task.addEventListener('click', function () {
+    task.readOnly = false;
+  });
+  document.addEventListener('click', function (event) {
+    // ? if user has clicked outside the input => update data
+    if (!task.contains(event.target)) {
+      var parentDivId = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_1__["default"])(task, 'div');
+      var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+      taskList.updateTask({
+        index: parentDivId,
+        newDescription: task.value
+      });
+    }
+  });
+});
+
+/***/ }),
+
+/***/ "./src/js/utils/get-parent-element-id.js":
+/*!***********************************************!*\
+  !*** ./src/js/utils/get-parent-element-id.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var getParentElementId = function getParentElementId(element, type) {
+  var parent = element.closest(type);
+  return parent.id;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getParentElementId);
 
 /***/ }),
 
@@ -138,10 +232,10 @@ input[type=text] {
 input[type=text]::-webkit-input-placeholder {
   font-style: italic;
 }
-input[type=text]:-moz-placeholder {
+input[type=text]::-moz-placeholder {
   font-style: italic;
 }
-input[type=text]::-moz-placeholder {
+input[type=text]:-moz-placeholder {
   font-style: italic;
 }
 input[type=text]:-ms-input-placeholder {
@@ -173,7 +267,7 @@ input[type=checkbox]:checked {
 
 .my-button.draggable {
   cursor: move;
-}`, "",{"version":3,"sources":["webpack://./src/styles/index.scss"],"names":[],"mappings":"AAIA;EACE,yBAAA;AAHF;;AAMA;EACE,UAAA;AAHF;AAKE;EACE;IACE,UAAA;EAHJ;AACF;;AAOA;EACE,aAAA;AAJF;AAME;EACE,kBAAA;AAJJ;AAME;EACE,kBAAA;AAJJ;AAME;EACE,kBAAA;AAJJ;AAME;EACE,kBAAA;AAJJ;;AAQA;EACE,qBAAA;AALF;;AAQA;EACE,sBAxCU;AAmCZ;;AAQA;EACE,yBAAA;AALF;;AAQA;;EAEE,cAhDkB;EAiDlB,YAAA;EACA,gCAAA;AALF;AAOE;;EACE,WApDuB;AAgD3B;;AAQA;EACE,YAAA;AALF","sourcesContent":["$button-bg: #fff;\n$button-font-color: #8f8f8f;\n$button-darker-font-color: #555;\n\nbody {\n  background-color: #090930;\n}\n\n.task--wrapper {\n  padding: 0;\n\n  @media (min-width: 768px) {\n    & {\n      width: 60%;\n    }\n  }\n}\n\ninput[type='text'] {\n  outline: none;\n\n  &::-webkit-input-placeholder {\n    font-style: italic;\n  }\n  &:-moz-placeholder {\n    font-style: italic;\n  }\n  &::-moz-placeholder {\n    font-style: italic;\n  }\n  &:-ms-input-placeholder {\n    font-style: italic;\n  }\n}\n\ninput[type='checkbox']:checked {\n  accent-color: #2ecd2e;\n}\n\n.my-button {\n  background-color: $button-bg;\n}\n\n.my-button.clear-all {\n  background-color: #e2e2e2;\n}\n\n.my-button,\n.my-button.clear-all {\n  color: $button-font-color;\n  border: none;\n  transition: all 0.2s ease-in-out;\n\n  &:hover {\n    color: $button-darker-font-color;\n  }\n}\n\n.my-button.draggable {\n  cursor: move;\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/styles/index.scss"],"names":[],"mappings":"AAIA;EACE,yBAAA;AAHF;;AAMA;EACE,UAAA;AAHF;AAKE;EACE;IACE,UAAA;EAHJ;AACF;;AAOA;EACE,aAAA;AAJF;AAME;EACE,kBAAA;AAJJ;AAOE;EACE,kBAAA;AALJ;AAQE;EACE,kBAAA;AANJ;AASE;EACE,kBAAA;AAPJ;;AAWA;EACE,qBAAA;AARF;;AAWA;EACE,sBA3CU;AAmCZ;;AAWA;EACE,yBAAA;AARF;;AAWA;;EAEE,cAnDkB;EAoDlB,YAAA;EACA,gCAAA;AARF;AAUE;;EACE,WAvDuB;AAgD3B;;AAWA;EACE,YAAA;AARF","sourcesContent":["$button-bg: #fff;\n$button-font-color: #8f8f8f;\n$button-darker-font-color: #555;\n\nbody {\n  background-color: #090930;\n}\n\n.task--wrapper {\n  padding: 0;\n\n  @media (min-width: 768px) {\n    & {\n      width: 60%;\n    }\n  }\n}\n\ninput[type='text'] {\n  outline: none;\n\n  &::-webkit-input-placeholder {\n    font-style: italic;\n  }\n\n  &::-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-ms-input-placeholder {\n    font-style: italic;\n  }\n}\n\ninput[type='checkbox']:checked {\n  accent-color: #2ecd2e;\n}\n\n.my-button {\n  background-color: $button-bg;\n}\n\n.my-button.clear-all {\n  background-color: #e2e2e2;\n}\n\n.my-button,\n.my-button.clear-all {\n  color: $button-font-color;\n  border: none;\n  transition: all 0.2s ease-in-out;\n\n  &:hover {\n    color: $button-darker-font-color;\n  }\n}\n\n.my-button.draggable {\n  cursor: move;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -708,4 +802,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.56cb245a3d72d74c83ed.js.map
+//# sourceMappingURL=bundle.6a07c27e6e75f33d429f.js.map
