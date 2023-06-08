@@ -48,3 +48,9 @@ document.querySelectorAll('[data-task-checkbox]').forEach((checkbox) => {
     window.location.reload();
   });
 });
+
+document.querySelector('[data-clear-all-btn]').addEventListener('click', () => {
+  const taskList = new TaskManager();
+  taskList.removeTasks();
+  window.location.reload();
+});
