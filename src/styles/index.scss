@@ -62,3 +62,8 @@ input[type='checkbox']:checked {
 .my-button.draggable {
   cursor: move;
 }
+
+.task-completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
