@@ -1,17 +1,38 @@
 class TaskManager {
   constructor() {
-    this.taskList = [
-      {
-        description: 'wash the dishes',
-        completed: false,
-        index: 1
-      },
-      {
-        description: 'complete To Do list project',
-        completed: false,
-        index: 2
-      }
-    ];
+    this.taskList = JSON.parse(localStorage.getItem('taskList')) || [];
+  }
+
+  updateLocalStorage() {
+    localStorage.setItem('taskList', JSON.stringify(this.taskList));
+  }
+
+  addNewTask(task) {
+    this.taskList.push({
+      description: task.description,
+      completed: false,
+      index: this.taskList.length
+    });
+    this.updateLocalStorage();
+  }
+
+  updateTask(task) {
+    if (task.index in this.taskList) {
+      this.taskList[task.index].description = task.newDescription;
+      this.updateLocalStorage();
+    }
+  }
+
+  removeTask(taskIndex) {
+    this.taskList.splice(taskIndex, 1);
+    this.updateTaskIndex();
+    this.updateLocalStorage();
+  }
+
+  updateTaskIndex() {
+    this.taskList.forEach((task, index) => {
+      task.index = index;
+    });
   }
 
   getTaskList() {
