@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@300&display=swap');
 
-$button-bg: #fff;
+$button-background: #fff;
 $button-font-color: #8f8f8f;
 $button-darker-font-color: #555;
 $dark-blue: #090930;
@@ -19,28 +19,14 @@ body {
   padding: 0;
 
   @media (min-width: 768px) {
-    & {
-      width: 60%;
-    }
+    width: 60%;
   }
 }
 
 input[type='text'] {
   outline: none;
 
-  &::-webkit-input-placeholder {
-    font-style: italic;
-  }
-
-  &::-moz-placeholder {
-    font-style: italic;
-  }
-
-  &:-moz-placeholder {
-    font-style: italic;
-  }
-
-  &:-ms-input-placeholder {
+  &::placeholder {
     font-style: italic;
   }
 }
@@ -58,30 +44,26 @@ input[type='checkbox'] {
 }
 
 .my-button {
-  background-color: $button-bg;
-}
-
-.my-button.clear-all {
-  background-color: #e2e2e2;
-}
-
-.my-button,
-.my-button.clear-all {
+  background-color: $button-background;
   color: $button-font-color;
   border: none;
   transition: all 0.2s ease-in-out;
 
+  &.clear-all {
+    background-color: #e2e2e2;
+  }
+
+  &.draggable {
+    cursor: move;
+  }
+
+  &.trash:hover {
+    color: #8f2727;
+  }
+
   &:hover {
     color: $button-darker-font-color;
   }
-}
-
-.my-button.draggable {
-  cursor: move;
-}
-
-.my-button.trash:hover {
-  color: #8f2727;
 }
 
 .task-completed {
