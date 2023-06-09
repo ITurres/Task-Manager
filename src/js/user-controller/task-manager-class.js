@@ -34,6 +34,12 @@ class TaskManager {
     this.updateLocalStorage();
   }
 
+  removeTask(taskIndex) {
+    this.taskList.splice(taskIndex, 1);
+    this.updateTaskIndex();
+    this.updateLocalStorage();
+  }
+
   updateTaskIndex() {
     this.taskList.forEach((task, index) => {
       task.index = index;
