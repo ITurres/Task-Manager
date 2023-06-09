@@ -295,16 +295,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `body {
 input[type=text] {
   outline: none;
 }
-input[type=text]::-webkit-input-placeholder {
-  font-style: italic;
-}
-input[type=text]::-moz-placeholder {
-  font-style: italic;
-}
-input[type=text]:-moz-placeholder {
-  font-style: italic;
-}
-input[type=text]:-ms-input-placeholder {
+input[type=text]::placeholder {
   font-style: italic;
 }
 
@@ -320,35 +311,27 @@ input[type=checkbox]:hover {
 
 .my-button {
   background-color: #fff;
-}
-
-.my-button.clear-all {
-  background-color: #e2e2e2;
-}
-
-.my-button,
-.my-button.clear-all {
   color: #8f8f8f;
   border: none;
   transition: all 0.2s ease-in-out;
 }
-.my-button:hover,
-.my-button.clear-all:hover {
-  color: #555;
+.my-button.clear-all {
+  background-color: #e2e2e2;
 }
-
 .my-button.draggable {
   cursor: move;
 }
-
 .my-button.trash:hover {
   color: #8f2727;
+}
+.my-button:hover {
+  color: #555;
 }
 
 .task-completed {
   text-decoration: line-through;
   opacity: 0.5;
-}`, "",{"version":3,"sources":["webpack://./src/styles/index.scss"],"names":[],"mappings":"AAOA;EACE,kCAAA;EACA,yBAJU;AADZ;;AAQA;EACE,gBAAA;EACA,cATU;AAIZ;;AAQA;EACE,UAAA;AALF;AAOE;EACE;IACE,UAAA;EALJ;AACF;;AASA;EACE,aAAA;AANF;AAQE;EACE,kBAAA;AANJ;AASE;EACE,kBAAA;AAPJ;AAUE;EACE,kBAAA;AARJ;AAWE;EACE,kBAAA;AATJ;;AAaA;EACE,gCAAA;AAVF;AAYE;EACE,qBAAA;AAVJ;AAaE;EACE,qBAAA;AAXJ;;AAeA;EACE,sBA1DU;AA8CZ;;AAeA;EACE,yBAAA;AAZF;;AAeA;;EAEE,cAlEkB;EAmElB,YAAA;EACA,gCAAA;AAZF;AAcE;;EACE,WAtEuB;AA2D3B;;AAeA;EACE,YAAA;AAZF;;AAeA;EACE,cAAA;AAZF;;AAeA;EACE,6BAAA;EACA,YAAA;AAZF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@300&display=swap');\n\n$button-bg: #fff;\n$button-font-color: #8f8f8f;\n$button-darker-font-color: #555;\n$dark-blue: #090930;\n\nbody {\n  font-family: 'Poppins', sans-serif;\n  background-color: $dark-blue;\n}\n\n#header {\n  font-weight: 700;\n  color: $dark-blue;\n}\n\n.task--wrapper {\n  padding: 0;\n\n  @media (min-width: 768px) {\n    & {\n      width: 60%;\n    }\n  }\n}\n\ninput[type='text'] {\n  outline: none;\n\n  &::-webkit-input-placeholder {\n    font-style: italic;\n  }\n\n  &::-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-ms-input-placeholder {\n    font-style: italic;\n  }\n}\n\ninput[type='checkbox'] {\n  transition: all 0.2s ease-in-out;\n\n  &:checked {\n    accent-color: #2ecd2e;\n  }\n\n  &:hover {\n    transform: scale(1.2);\n  }\n}\n\n.my-button {\n  background-color: $button-bg;\n}\n\n.my-button.clear-all {\n  background-color: #e2e2e2;\n}\n\n.my-button,\n.my-button.clear-all {\n  color: $button-font-color;\n  border: none;\n  transition: all 0.2s ease-in-out;\n\n  &:hover {\n    color: $button-darker-font-color;\n  }\n}\n\n.my-button.draggable {\n  cursor: move;\n}\n\n.my-button.trash:hover {\n  color: #8f2727;\n}\n\n.task-completed {\n  text-decoration: line-through;\n  opacity: 0.5;\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/styles/index.scss"],"names":[],"mappings":"AAOA;EACE,kCAAA;EACA,yBAJU;AADZ;;AAQA;EACE,gBAAA;EACA,cATU;AAIZ;;AAQA;EACE,UAAA;AALF;AAOE;EAHF;IAII,UAAA;EAJF;AACF;;AAOA;EACE,aAAA;AAJF;AAME;EACE,kBAAA;AAJJ;;AAQA;EACE,gCAAA;AALF;AAOE;EACE,qBAAA;AALJ;AAQE;EACE,qBAAA;AANJ;;AAUA;EACE,sBA5CkB;EA6ClB,cA5CkB;EA6ClB,YAAA;EACA,gCAAA;AAPF;AASE;EACE,yBAAA;AAPJ;AAUE;EACE,YAAA;AARJ;AAWE;EACE,cAAA;AATJ;AAYE;EACE,WA5DuB;AAkD3B;;AAcA;EACE,6BAAA;EACA,YAAA;AAXF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@300&display=swap');\n\n$button-background: #fff;\n$button-font-color: #8f8f8f;\n$button-darker-font-color: #555;\n$dark-blue: #090930;\n\nbody {\n  font-family: 'Poppins', sans-serif;\n  background-color: $dark-blue;\n}\n\n#header {\n  font-weight: 700;\n  color: $dark-blue;\n}\n\n.task--wrapper {\n  padding: 0;\n\n  @media (min-width: 768px) {\n    width: 60%;\n  }\n}\n\ninput[type='text'] {\n  outline: none;\n\n  &::placeholder {\n    font-style: italic;\n  }\n}\n\ninput[type='checkbox'] {\n  transition: all 0.2s ease-in-out;\n\n  &:checked {\n    accent-color: #2ecd2e;\n  }\n\n  &:hover {\n    transform: scale(1.2);\n  }\n}\n\n.my-button {\n  background-color: $button-background;\n  color: $button-font-color;\n  border: none;\n  transition: all 0.2s ease-in-out;\n\n  &.clear-all {\n    background-color: #e2e2e2;\n  }\n\n  &.draggable {\n    cursor: move;\n  }\n\n  &.trash:hover {\n    color: #8f2727;\n  }\n\n  &:hover {\n    color: $button-darker-font-color;\n  }\n}\n\n.task-completed {\n  text-decoration: line-through;\n  opacity: 0.5;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -883,4 +866,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.f45e0433183fcfbb0e3c.js.map
+//# sourceMappingURL=bundle.2c4b2b43c5da38936f69.js.map
