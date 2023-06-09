@@ -42,7 +42,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 var createTaskTemplate = function createTaskTemplate(task) {
-  return "<div id=\"".concat(task.index, "\" class=\"w-100 p-3 ps-2 d-flex\">\n<input type=\"checkbox\" class=\"m-2\" data-task-checkbox/>\n<input\n  type=\"text\"\n  value=\"").concat(task.description, "\"\n  class=\"border-0 ps-2 w-100\"\n  data-task\n  readonly\n/>\n<button\n  type=\"button\"\n  class=\"my-button trash align-self-start ms-3\"\n  data-delete-task\n>\n  <i class=\"fa-solid fa-trash\"></i>\n</button>\n<button\n  type=\"button\"\n  class=\"my-button draggable align-self-start ms-3\"\n  data-draggable-task\n>\n  <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n</button>\n</div>");
+  return "<div id=\"".concat(task.index, "\" class=\"w-100 p-3 ps-2 d-flex\"\n  data-task-holder\n>\n<input type=\"checkbox\" class=\"m-2\" data-task-checkbox\n  data-completed=\"").concat(task.completed, "\"\n/>\n<input\n  type=\"text\"\n  value=\"").concat(task.description, "\"\n  class=\"border-0 ps-2 w-100\"\n  data-task\n  readonly\n/>\n<button\n  type=\"button\"\n  class=\"my-button trash align-self-start ms-3\"\n  data-delete-task\n>\n  <i class=\"fa-solid fa-trash\"></i>\n</button>\n<button\n  type=\"button\"\n  class=\"my-button draggable align-self-start ms-3\"\n  data-draggable-task\n>\n  <i class=\"fa-solid fa-ellipsis-vertical\"></i>\n</button>\n</div>");
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createTaskTemplate);
 
@@ -88,9 +88,23 @@ var TaskManager = /*#__PURE__*/function () {
     key: "updateTask",
     value: function updateTask(task) {
       if (task.index in this.taskList) {
-        this.taskList[task.index].description = task.newDescription;
+        if ('description' in task) {
+          this.taskList[task.index].description = task.description;
+        }
+        if ('completed' in task) {
+          this.taskList[task.index].completed = task.completed;
+        }
         this.updateLocalStorage();
       }
+    }
+  }, {
+    key: "removeCompletedTasks",
+    value: function removeCompletedTasks() {
+      this.taskList = this.taskList.filter(function (task) {
+        return !task.completed;
+      });
+      this.updateTaskIndex();
+      this.updateLocalStorage();
     }
   }, {
     key: "removeTask",
@@ -125,14 +139,17 @@ var TaskManager = /*#__PURE__*/function () {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../markup-injectors/update-tasklist-dom-injection.js */ "./src/js/markup-injectors/update-tasklist-dom-injection.js");
-/* harmony import */ var _utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/get-parent-element-id.js */ "./src/js/utils/get-parent-element-id.js");
-/* harmony import */ var _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./task-manager-class.js */ "./src/js/user-controller/task-manager-class.js");
+/* harmony import */ var _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./task-manager-class.js */ "./src/js/user-controller/task-manager-class.js");
+/* harmony import */ var _markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../markup-injectors/update-tasklist-dom-injection.js */ "./src/js/markup-injectors/update-tasklist-dom-injection.js");
+/* harmony import */ var _utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/get-parent-element-id.js */ "./src/js/utils/get-parent-element-id.js");
+/* harmony import */ var _utils_updateCompletedTaskStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/updateCompletedTaskStyles.js */ "./src/js/utils/updateCompletedTaskStyles.js");
+
 
 
 
 if (window.localStorage.length > 0) {
-  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__["default"])('fullList');
+  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_1__["default"])('fullList');
+  (0,_utils_updateCompletedTaskStyles_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
 }
 document.querySelector('[data-refresh-btn]').addEventListener('click', function () {
   window.location.reload();
@@ -142,36 +159,54 @@ document.querySelector('[data-add-task]').addEventListener('click', function () 
   if (!taskData.value) {
     return;
   }
-  var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
   taskList.addNewTask({
     description: taskData.value
   });
-  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_0__["default"])('lastTask');
+  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_1__["default"])('lastTask');
   window.location.reload();
 });
-document.querySelectorAll('[data-delete-task]').forEach(function (button) {
-  button.addEventListener('click', function () {
-    var parentDivId = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_1__["default"])(button, 'div');
-    var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
-    taskList.removeTask(parentDivId);
-    window.location.reload();
+document.querySelectorAll('[data-task]').forEach(function (taskInput) {
+  taskInput.addEventListener('click', function () {
+    taskInput.readOnly = false;
   });
-});
-document.querySelectorAll('[data-task]').forEach(function (task) {
-  task.addEventListener('click', function () {
-    task.readOnly = false;
-  });
-  document.addEventListener('click', function (event) {
-    // ? if user has clicked outside the input => update data
-    if (!task.contains(event.target)) {
-      var parentDivId = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_1__["default"])(task, 'div');
-      var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  document.addEventListener('mouseleave', function (event) {
+    // ? update data => when mouse leaves input element
+    if (!taskInput.contains(event.target)) {
+      var parentDiv = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_2__["default"])(taskInput, 'div');
+      var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
       taskList.updateTask({
-        index: parentDivId,
-        newDescription: task.value
+        index: parentDiv.id,
+        description: taskInput.value
       });
     }
   });
+});
+document.querySelectorAll('[data-task-checkbox]').forEach(function (checkbox) {
+  checkbox.addEventListener('change', function (event) {
+    var taskCompleted = JSON.parse(event.target.dataset.completed);
+    var parentDiv = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_2__["default"])(checkbox, 'div');
+    var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    taskList.updateTask({
+      index: parentDiv.id,
+      completed: !taskCompleted
+    });
+    parentDiv.classList.toggle('task-completed');
+    window.location.reload();
+  });
+});
+document.querySelectorAll('[data-delete-task]').forEach(function (button) {
+  button.addEventListener('click', function () {
+    var parentDiv = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_2__["default"])(button, 'div');
+    var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    taskList.removeTask(parentDiv.id);
+    window.location.reload();
+  });
+});
+document.querySelector('[data-clear-all-btn]').addEventListener('click', function () {
+  var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  taskList.removeCompletedTasks();
+  window.location.reload();
 });
 
 /***/ }),
@@ -186,11 +221,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var getParentElementId = function getParentElementId(element, type) {
+var getParentElement = function getParentElement(element, type) {
   var parent = element.closest(type);
-  return parent.id;
+  return parent;
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getParentElementId);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getParentElement);
+
+/***/ }),
+
+/***/ "./src/js/utils/updateCompletedTaskStyles.js":
+/*!***************************************************!*\
+  !*** ./src/js/utils/updateCompletedTaskStyles.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var updateCompletedTaskStyles = function updateCompletedTaskStyles() {
+  var taskHolder = document.querySelectorAll('[data-task-holder]');
+  taskHolder.forEach(function (task) {
+    var taskCheckboxInput = task.children[0];
+    if (JSON.parse(taskCheckboxInput.dataset.completed) === true) {
+      task.classList.add('task-completed');
+      taskCheckboxInput.checked = true;
+    }
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateCompletedTaskStyles);
 
 /***/ }),
 
@@ -212,9 +271,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@300&display=swap);"]);
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `body {
+  font-family: "Poppins", sans-serif;
   background-color: #090930;
+}
+
+#header {
+  font-weight: 700;
+  color: #090930;
 }
 
 .task--wrapper {
@@ -242,8 +308,14 @@ input[type=text]:-ms-input-placeholder {
   font-style: italic;
 }
 
+input[type=checkbox] {
+  transition: all 0.2s ease-in-out;
+}
 input[type=checkbox]:checked {
   accent-color: #2ecd2e;
+}
+input[type=checkbox]:hover {
+  transform: scale(1.2);
 }
 
 .my-button {
@@ -267,7 +339,16 @@ input[type=checkbox]:checked {
 
 .my-button.draggable {
   cursor: move;
-}`, "",{"version":3,"sources":["webpack://./src/styles/index.scss"],"names":[],"mappings":"AAIA;EACE,yBAAA;AAHF;;AAMA;EACE,UAAA;AAHF;AAKE;EACE;IACE,UAAA;EAHJ;AACF;;AAOA;EACE,aAAA;AAJF;AAME;EACE,kBAAA;AAJJ;AAOE;EACE,kBAAA;AALJ;AAQE;EACE,kBAAA;AANJ;AASE;EACE,kBAAA;AAPJ;;AAWA;EACE,qBAAA;AARF;;AAWA;EACE,sBA3CU;AAmCZ;;AAWA;EACE,yBAAA;AARF;;AAWA;;EAEE,cAnDkB;EAoDlB,YAAA;EACA,gCAAA;AARF;AAUE;;EACE,WAvDuB;AAgD3B;;AAWA;EACE,YAAA;AARF","sourcesContent":["$button-bg: #fff;\n$button-font-color: #8f8f8f;\n$button-darker-font-color: #555;\n\nbody {\n  background-color: #090930;\n}\n\n.task--wrapper {\n  padding: 0;\n\n  @media (min-width: 768px) {\n    & {\n      width: 60%;\n    }\n  }\n}\n\ninput[type='text'] {\n  outline: none;\n\n  &::-webkit-input-placeholder {\n    font-style: italic;\n  }\n\n  &::-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-ms-input-placeholder {\n    font-style: italic;\n  }\n}\n\ninput[type='checkbox']:checked {\n  accent-color: #2ecd2e;\n}\n\n.my-button {\n  background-color: $button-bg;\n}\n\n.my-button.clear-all {\n  background-color: #e2e2e2;\n}\n\n.my-button,\n.my-button.clear-all {\n  color: $button-font-color;\n  border: none;\n  transition: all 0.2s ease-in-out;\n\n  &:hover {\n    color: $button-darker-font-color;\n  }\n}\n\n.my-button.draggable {\n  cursor: move;\n}\n"],"sourceRoot":""}]);
+}
+
+.my-button.trash:hover {
+  color: #8f2727;
+}
+
+.task-completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}`, "",{"version":3,"sources":["webpack://./src/styles/index.scss"],"names":[],"mappings":"AAOA;EACE,kCAAA;EACA,yBAJU;AADZ;;AAQA;EACE,gBAAA;EACA,cATU;AAIZ;;AAQA;EACE,UAAA;AALF;AAOE;EACE;IACE,UAAA;EALJ;AACF;;AASA;EACE,aAAA;AANF;AAQE;EACE,kBAAA;AANJ;AASE;EACE,kBAAA;AAPJ;AAUE;EACE,kBAAA;AARJ;AAWE;EACE,kBAAA;AATJ;;AAaA;EACE,gCAAA;AAVF;AAYE;EACE,qBAAA;AAVJ;AAaE;EACE,qBAAA;AAXJ;;AAeA;EACE,sBA1DU;AA8CZ;;AAeA;EACE,yBAAA;AAZF;;AAeA;;EAEE,cAlEkB;EAmElB,YAAA;EACA,gCAAA;AAZF;AAcE;;EACE,WAtEuB;AA2D3B;;AAeA;EACE,YAAA;AAZF;;AAeA;EACE,cAAA;AAZF;;AAeA;EACE,6BAAA;EACA,YAAA;AAZF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@300&display=swap');\n\n$button-bg: #fff;\n$button-font-color: #8f8f8f;\n$button-darker-font-color: #555;\n$dark-blue: #090930;\n\nbody {\n  font-family: 'Poppins', sans-serif;\n  background-color: $dark-blue;\n}\n\n#header {\n  font-weight: 700;\n  color: $dark-blue;\n}\n\n.task--wrapper {\n  padding: 0;\n\n  @media (min-width: 768px) {\n    & {\n      width: 60%;\n    }\n  }\n}\n\ninput[type='text'] {\n  outline: none;\n\n  &::-webkit-input-placeholder {\n    font-style: italic;\n  }\n\n  &::-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-moz-placeholder {\n    font-style: italic;\n  }\n\n  &:-ms-input-placeholder {\n    font-style: italic;\n  }\n}\n\ninput[type='checkbox'] {\n  transition: all 0.2s ease-in-out;\n\n  &:checked {\n    accent-color: #2ecd2e;\n  }\n\n  &:hover {\n    transform: scale(1.2);\n  }\n}\n\n.my-button {\n  background-color: $button-bg;\n}\n\n.my-button.clear-all {\n  background-color: #e2e2e2;\n}\n\n.my-button,\n.my-button.clear-all {\n  color: $button-font-color;\n  border: none;\n  transition: all 0.2s ease-in-out;\n\n  &:hover {\n    color: $button-darker-font-color;\n  }\n}\n\n.my-button.draggable {\n  cursor: move;\n}\n\n.my-button.trash:hover {\n  color: #8f2727;\n}\n\n.task-completed {\n  text-decoration: line-through;\n  opacity: 0.5;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -802,4 +883,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.6a07c27e6e75f33d429f.js.map
+//# sourceMappingURL=bundle.f45e0433183fcfbb0e3c.js.map
