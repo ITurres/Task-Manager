@@ -1,9 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@300&display=swap');
+
 $button-bg: #fff;
 $button-font-color: #8f8f8f;
 $button-darker-font-color: #555;
+$dark-blue: #090930;
 
 body {
-  background-color: #090930;
+  font-family: 'Poppins', sans-serif;
+  background-color: $dark-blue;
+}
+
+#header {
+  font-weight: 700;
+  color: $dark-blue;
 }
 
 .task--wrapper {
