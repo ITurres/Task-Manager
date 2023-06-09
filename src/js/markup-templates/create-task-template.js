@@ -15,6 +15,13 @@ const createTaskTemplate = (
 />
 <button
   type="button"
+  class="my-button trash align-self-start ms-3"
+  data-delete-task
+>
+  <i class="fa-solid fa-trash"></i>
+</button>
+<button
+  type="button"
   class="my-button draggable align-self-start ms-3"
   data-draggable-task
 >
