@@ -1,9 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Poppins:wght@300&display=swap');
+
 $button-bg: #fff;
 $button-font-color: #8f8f8f;
 $button-darker-font-color: #555;
+$dark-blue: #090930;
 
 body {
-  background-color: #090930;
+  font-family: 'Poppins', sans-serif;
+  background-color: $dark-blue;
+}
+
+#header {
+  font-weight: 700;
+  color: $dark-blue;
 }
 
 .task--wrapper {
@@ -36,8 +45,16 @@ input[type='text'] {
   }
 }
 
-input[type='checkbox']:checked {
-  accent-color: #2ecd2e;
+input[type='checkbox'] {
+  transition: all 0.2s ease-in-out;
+
+  &:checked {
+    accent-color: #2ecd2e;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+  }
 }
 
 .my-button {
@@ -61,4 +78,13 @@ input[type='checkbox']:checked {
 
 .my-button.draggable {
   cursor: move;
+}
+
+.my-button.trash:hover {
+  color: #8f2727;
+}
+
+.task-completed {
+  text-decoration: line-through;
+  opacity: 0.5;
 }
