@@ -52,6 +52,15 @@ document.querySelectorAll('[data-task-checkbox]').forEach((checkbox) => {
   });
 });
 
+document.querySelectorAll('[data-delete-task]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const parentDiv = getParentElement(button, 'div');
+    const taskList = new TaskManager();
+    taskList.removeTask(parentDiv.id);
+    window.location.reload();
+  });
+});
+
 document.querySelector('[data-clear-all-btn]').addEventListener('click', () => {
   const taskList = new TaskManager();
   taskList.removeCompletedTasks();
