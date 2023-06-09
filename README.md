@@ -1,8 +1,9 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <h1><b>📝</b></h1>
-  <h2><b>Task Manager</b></h2>
+    <img src="src/assets/task-manager-icon.png" alt="task manager logo" width="130"  height="auto" />
+    <br>
+    <h1><b>Task Manager</b></h1>
 </div>
 
 ---
@@ -91,16 +92,17 @@
 - **WebPack**
 - **Dynamic Injection of HTML Markup**
 - **Browser Local Storage**
+- **CRUD**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-<!-- !LIVE DEMO ===> ONCE THE PROJECT CAN BE DEPLOYED I WILL ENABLE THIS SECTION -->
-<!--
+<!-- LIVE DEMO -->
+
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](https://iturres.github.io/Awesome-Books/) -->
+- [Live Demo Link](https://iturres.github.io/Task-Manager/dist/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -181,7 +183,7 @@ You can deploy this project using:
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- [ ] **CRUD**
+- [ ] **Draggable Tasks**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
