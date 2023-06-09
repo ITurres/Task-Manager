@@ -1,6 +1,6 @@
+import TaskManager from './task-manager-class.js';
 import updateTaskListOnDOM from '../markup-injectors/update-tasklist-dom-injection.js';
 import getParentElement from '../utils/get-parent-element-id.js';
-import TaskManager from './task-manager-class.js';
 import updateCompletedTaskStyles from '../utils/updateCompletedTaskStyles.js';
 
 if (window.localStorage.length > 0) {
@@ -23,17 +23,20 @@ document.querySelector('[data-add-task]').addEventListener('click', () => {
   window.location.reload();
 });
 
-document.querySelectorAll('[data-task]').forEach((task) => {
-  task.addEventListener('click', () => {
-    task.readOnly = false;
+document.querySelectorAll('[data-task]').forEach((taskInput) => {
+  taskInput.addEventListener('click', () => {
+    taskInput.readOnly = false;
   });
 
-  document.addEventListener('click', (event) => {
-    // ? if user has clicked outside the input => update data
-    if (!task.contains(event.target)) {
-      const parentDiv = getParentElement(task, 'div');
+  document.addEventListener('mouseleave', (event) => {
+    // ? update data => when mouse leaves input element
+    if (!taskInput.contains(event.target)) {
+      const parentDiv = getParentElement(taskInput, 'div');
       const taskList = new TaskManager();
-      taskList.updateTask({ index: parentDiv.id, description: task.value });
+      taskList.updateTask({
+        index: parentDiv.id,
+        description: taskInput.value
+      });
     }
   });
 });
@@ -51,6 +54,6 @@ document.querySelectorAll('[data-task-checkbox]').forEach((checkbox) => {
 
 document.querySelector('[data-clear-all-btn]').addEventListener('click', () => {
   const taskList = new TaskManager();
-  taskList.removeTasks();
+  taskList.removeCompletedTasks();
   window.location.reload();
 });
