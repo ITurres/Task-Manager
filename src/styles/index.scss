@@ -36,8 +36,16 @@ input[type='text'] {
   }
 }
 
-input[type='checkbox']:checked {
-  accent-color: #2ecd2e;
+input[type='checkbox'] {
+  transition: all 0.2s ease-in-out;
+
+  &:checked {
+    accent-color: #2ecd2e;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+  }
 }
 
 .my-button {
@@ -61,6 +69,10 @@ input[type='checkbox']:checked {
 
 .my-button.draggable {
   cursor: move;
+}
+
+.my-button.trash:hover {
+  color: #8f2727;
 }
 
 .task-completed {
