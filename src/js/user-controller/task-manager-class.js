@@ -28,8 +28,8 @@ class TaskManager {
     }
   }
 
-  removeTask(taskIndex) {
-    this.taskList.splice(taskIndex, 1);
+  removeCompletedTasks() {
+    this.taskList = this.taskList.filter((task) => !task.completed);
     this.updateTaskIndex();
     this.updateLocalStorage();
   }
