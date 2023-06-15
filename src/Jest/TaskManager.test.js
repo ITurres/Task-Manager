@@ -49,11 +49,11 @@ describe('TaskManager - add a new element to the DOM', () => {
 
     injectLastTask(taskListHolder, tasklistElements);
 
-    const updatedElementCount = document.querySelectorAll(
+    const allItemsOnTheHolder = document.querySelectorAll(
       '[data-task-list-holder] div'
     );
 
-    expect(updatedElementCount).toHaveLength(1);
+    expect(allItemsOnTheHolder).toHaveLength(1);
   });
 });
 
@@ -76,5 +76,41 @@ describe('TaskManager - Remove Task from LocalStorage', () => {
     taskList.removeTask(0);
 
     expect(taskList.getTaskList().length).toBe(1);
+  });
+});
+
+describe('TaskManager - remove an actual element from the DOM', () => {
+  let taskList;
+  let taskListHolder;
+
+  beforeEach(() => {
+    taskList = new TaskManager();
+    taskListHolder = document.createElement('div');
+    taskListHolder.setAttribute('data-task-list-holder', '');
+    document.body.appendChild(taskListHolder);
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+    taskList = null;
+    taskListHolder = null;
+    localStorage.clear();
+  });
+
+  test('Should add a new DOM element after adding a new tasklist', () => {
+    taskList.addNewTask({ description: 'Task 1 - Test 4' });
+    taskList.addNewTask({ description: 'Task 2 - Test 4' });
+
+    const tasklistElements = taskList.getTaskList();
+
+    injectLastTask(taskListHolder, tasklistElements);
+
+    taskList.removeTask(0);
+
+    const allItemsOnTheHolder = document.querySelectorAll(
+      '[data-task-list-holder] div'
+    );
+
+    expect(allItemsOnTheHolder).toHaveLength(1);
   });
 });
