@@ -39,6 +39,7 @@ describe('TaskManager - add a new element to the DOM', () => {
     document.body.innerHTML = '';
     taskList = null;
     taskListHolder = null;
+    localStorage.clear();
   });
 
   test('Should add a new DOM element after adding a new tasklist', () => {
@@ -53,5 +54,27 @@ describe('TaskManager - add a new element to the DOM', () => {
     );
 
     expect(updatedElementCount).toHaveLength(1);
+  });
+});
+
+describe('TaskManager - Remove Task from LocalStorage', () => {
+  let taskList;
+
+  beforeEach(() => {
+    taskList = new TaskManager();
+  });
+
+  afterEach(() => {
+    taskList = null;
+    localStorage.clear();
+  });
+
+  test('Should remove an element from the taskList array', () => {
+    taskList.addNewTask({ description: 'Task 1 - Test 3' });
+    taskList.addNewTask({ description: 'Task 2 - Test 3' });
+
+    taskList.removeTask(0);
+
+    expect(taskList.getTaskList().length).toBe(1);
   });
 });
