@@ -79,7 +79,7 @@ describe('TaskManager - Remove Task from LocalStorage', () => {
   });
 });
 
-describe('TaskManager - remove an actual element from the DOM', () => {
+describe('TaskManager - Remove an actual element from the DOM', () => {
   let taskList;
   let taskListHolder;
 
@@ -97,7 +97,7 @@ describe('TaskManager - remove an actual element from the DOM', () => {
     localStorage.clear();
   });
 
-  test('Should add a new DOM element after adding a new tasklist', () => {
+  test('Should Remove an element from the DOM', () => {
     taskList.addNewTask({ description: 'Task 1 - Test 4' });
     taskList.addNewTask({ description: 'Task 2 - Test 4' });
 
