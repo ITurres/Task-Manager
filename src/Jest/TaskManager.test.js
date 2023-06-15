@@ -16,10 +16,11 @@ describe('TaskManager - add New Task to LocalStorage', () => {
 
   afterEach(() => {
     taskList = null;
+    localStorage.clear();
   });
 
   test('Should add a new element to the taskList array', () => {
-    taskList.addNewTask({ description: 'New Task' });
+    taskList.addNewTask({ description: 'New Task Test 1' });
 
     expect(taskList.getTaskList().length).toBe(1);
   });
@@ -33,7 +34,7 @@ describe('TaskManager - add a new element to the DOM', () => {
     taskList = new TaskManager();
     taskListHolder = document.createElement('div');
     taskListHolder.setAttribute('data-task-list-holder', '');
-    document.body.appendChild(taskListHolder);
+    document.body.appendChild(taskListHolder);   
   });
 
   afterEach(() => {
@@ -43,10 +44,15 @@ describe('TaskManager - add a new element to the DOM', () => {
   });
 
   test('Should add a new DOM elemnt after adding a new tasklist', () => {
-    taskList.addNewTask({ description: 'newTask' });
+    taskList.addNewTask({ description: 'new Task Test 2' });
+  
     const initialElementCount = taskListHolder.querySelectorAll('div').length;
+    
+    
     injectLastTask(taskListHolder, taskList.getTaskList());
+   
     const updatedElementCount = taskListHolder.querySelectorAll('div').length;
+    console.log(updatedElementCount);
     expect(updatedElementCount).toBe(initialElementCount + 1);
   });
 });

@@ -5,7 +5,9 @@ const injectLastTask = (taskListHolder, taskList) => {
   // // const taskListHolder = document.querySelector('[data-task-list-holder]');
 
   // const taskList = new TaskManager().getTaskList();
-  taskListHolder.innerHTML += createTaskTemplate(taskList[taskList.length - 1]);
+  const lastTask = taskList[taskList.length - 1];
+  const taskElement = createTaskTemplate(lastTask);
+  taskListHolder.appendChild(taskElement);
 };
 
 module.exports = injectLastTask;
