@@ -2,8 +2,6 @@
  * @jest-environment jsdom
  */
 
-jest.mock('./addNewTasktoDOM.js');
-
 const TaskManager = require('./TaskManager-toTest.js');
 const injectLastTask = require('./addNewTasktoDOM.js');
 
@@ -34,7 +32,7 @@ describe('TaskManager - add a new element to the DOM', () => {
     taskList = new TaskManager();
     taskListHolder = document.createElement('div');
     taskListHolder.setAttribute('data-task-list-holder', '');
-    document.body.appendChild(taskListHolder);   
+    document.body.appendChild(taskListHolder);
   });
 
   afterEach(() => {
@@ -43,16 +41,17 @@ describe('TaskManager - add a new element to the DOM', () => {
     taskListHolder = null;
   });
 
-  test('Should add a new DOM elemnt after adding a new tasklist', () => {
+  test('Should add a new DOM element after adding a new tasklist', () => {
     taskList.addNewTask({ description: 'new Task Test 2' });
-  
-    const initialElementCount = taskListHolder.querySelectorAll('div').length;
-    
-    
-    injectLastTask(taskListHolder, taskList.getTaskList());
-   
-    const updatedElementCount = taskListHolder.querySelectorAll('div').length;
-    console.log(updatedElementCount);
-    expect(updatedElementCount).toBe(initialElementCount + 1);
+
+    const tasklistElements = taskList.getTaskList();
+
+    injectLastTask(taskListHolder, tasklistElements);
+
+    const updatedElementCount = document.querySelectorAll(
+      '[data-task-list-holder] div'
+    );
+
+    expect(updatedElementCount).toHaveLength(1);
   });
 });
