@@ -4,41 +4,26 @@
 
 const TaskManager = require('./TaskManager-toTest.js');
 
-jest.mock('./TaskManager-toTest.js', () => [
-  {
-    description: 'Task 1',
-    completed: false,
-    index: 0
-  },
-  {
-    description: 'Task 2',
-    completed: false,
-    index: 1
-  },
-  {
-    description: 'Task 3',
-    completed: false,
-    index: 2
-  }
-]);
+describe('TaskManager - add New Task to LocalStorage', () => {
+  let taskList;
 
-describe('#addNewTask method', () => {
   beforeEach(() => {
+    taskList = new TaskManager();
     document.body.innerHTML = '<input type="text" value="" id="add-task"/>';
   });
 
+  afterEach(() => {
+    document.body.innerHTML = '';
+    taskList = null;
+  });
+
   test('Should add a new element to the taskList array', () => {
-    const taskList = new TaskManager();
-    const newTaskDescription = 'Task 4';
+    const newTaskDescription = 'New Task';
 
     document.querySelector('#add-task').value = newTaskDescription;
 
     taskList.addNewTask({ description: newTaskDescription });
 
-    expect(taskList.getTaskList().length).toBe(4);
-  });
-
-  afterEach(() => {
-    document.body.innerHTML = '';
+    expect(taskList.getTaskList().length).toBe(1);
   });
 });
