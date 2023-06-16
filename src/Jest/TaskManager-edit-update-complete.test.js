@@ -17,7 +17,7 @@ describe('TaskManager - Edit task description on LocalStorage', () => {
     localStorage.clear();
   });
 
-  test('Should update an element description of the taskList array', () => {
+  test('Should update a task description of the taskList array', () => {
     taskList.addNewTask({ description: 'New Task Test 5' });
 
     taskList.updateTask({ index: 0, description: 'Updated Task Test 5' });
@@ -38,7 +38,7 @@ describe('TaskManager - Update task completed property on LocalStorage', () => {
     localStorage.clear();
   });
 
-  test('Should update an element completed property', () => {
+  test('Should update a task completed property', () => {
     taskList.addNewTask({ description: 'New Task Test 6' });
 
     taskList.updateTask({ index: 0, completed: true });
@@ -65,7 +65,7 @@ describe('TaskManager - Clear all Completed tasks from the DOM', () => {
     localStorage.clear();
   });
 
-  test('Should Remove all Completed Elements from the DOM', () => {
+  test('Should Remove all Completed tasks from the DOM', () => {
     taskList.addNewTask({ description: 'Task 1 - Test 7' });
     taskList.addNewTask({ description: 'Task 2 - Test 7' });
 
