@@ -16,16 +16,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../markup-templates/create-task-template.js */ "./src/js/markup-templates/create-task-template.js");
 
 
-var updateTaskListOnDOM = function updateTaskListOnDOM(updateWhen) {
-  var taskListHolder = document.querySelector('[data-task-list-holder]');
+var taskListHolder = document.querySelector('[data-task-list-holder]');
+var injectFullTaskList = function injectFullTaskList() {
   var taskList = new _user_controller_task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]().getTaskList();
-  if (updateWhen === 'lastTask') {
-    taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(taskList[taskList.length - 1]);
-  } else if (updateWhen === 'fullList') {
-    taskList.forEach(function (task) {
-      taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(task);
-    });
-  }
+  taskList.forEach(function (task) {
+    taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(task);
+  });
+};
+var injectLastTask = function injectLastTask() {
+  var taskList = new _user_controller_task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]().getTaskList();
+  taskListHolder.innerHTML += (0,_markup_templates_create_task_template_js__WEBPACK_IMPORTED_MODULE_1__["default"])(taskList[taskList.length - 1]);
+};
+var updateTaskListOnDOM = {
+  injectFullTaskList: injectFullTaskList,
+  injectLastTask: injectLastTask
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (updateTaskListOnDOM);
 
@@ -148,12 +152,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 if (window.localStorage.length > 0) {
-  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_1__["default"])('fullList');
+  _markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_1__["default"].injectFullTaskList();
   (0,_utils_updateCompletedTaskStyles_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
 }
 document.querySelector('[data-refresh-btn]').addEventListener('click', function () {
   window.location.reload();
 });
+
+// * START of [Add New Task]
+
 document.querySelector('[data-add-task]').addEventListener('click', function () {
   var taskData = document.querySelector('[name="new-task"]');
   if (!taskData.value) {
@@ -163,25 +170,35 @@ document.querySelector('[data-add-task]').addEventListener('click', function () 
   taskList.addNewTask({
     description: taskData.value
   });
-  (0,_markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_1__["default"])('lastTask');
+  _markup_injectors_update_tasklist_dom_injection_js__WEBPACK_IMPORTED_MODULE_1__["default"].injectLastTask();
   window.location.reload();
 });
+
+// * START of [Task Edition]
+
 document.querySelectorAll('[data-task]').forEach(function (taskInput) {
   taskInput.addEventListener('click', function () {
     taskInput.readOnly = false;
+    taskInput.style.background = '#2ecd2e32';
   });
-  document.addEventListener('mouseleave', function (event) {
-    // ? update data => when mouse leaves input element
+  taskInput.addEventListener('keyup', function () {
+    var parentDiv = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_2__["default"])(taskInput, 'div');
+    var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    taskList.updateTask({
+      index: parentDiv.id,
+      description: taskInput.value
+    });
+  });
+  document.addEventListener('click', function (event) {
     if (!taskInput.contains(event.target)) {
-      var parentDiv = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_2__["default"])(taskInput, 'div');
-      var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
-      taskList.updateTask({
-        index: parentDiv.id,
-        description: taskInput.value
-      });
+      // ? user has clicked outside input
+      taskInput.style.background = 'transparent';
     }
   });
 });
+
+// * START of [Task Checked]
+
 document.querySelectorAll('[data-task-checkbox]').forEach(function (checkbox) {
   checkbox.addEventListener('change', function (event) {
     var taskCompleted = JSON.parse(event.target.dataset.completed);
@@ -195,6 +212,9 @@ document.querySelectorAll('[data-task-checkbox]').forEach(function (checkbox) {
     window.location.reload();
   });
 });
+
+// * START of [Task Single Deletion]
+
 document.querySelectorAll('[data-delete-task]').forEach(function (button) {
   button.addEventListener('click', function () {
     var parentDiv = (0,_utils_get_parent_element_id_js__WEBPACK_IMPORTED_MODULE_2__["default"])(button, 'div');
@@ -203,6 +223,9 @@ document.querySelectorAll('[data-delete-task]').forEach(function (button) {
     window.location.reload();
   });
 });
+
+// * START of [Task Multiple Deletion]
+
 document.querySelector('[data-clear-all-btn]').addEventListener('click', function () {
   var taskList = new _task_manager_class_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
   taskList.removeCompletedTasks();
@@ -866,4 +889,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle.2c4b2b43c5da38936f69.js.map
+//# sourceMappingURL=bundle.685a0d7a2e7d2ef86032.js.map

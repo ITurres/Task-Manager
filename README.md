@@ -175,6 +175,12 @@ You can deploy this project using:
 - Twitter: [@Arthur_ITurres](https://twitter.com/ArthurIturres)
 - LinkedIn: [Arthur Emanuel G. Iturres](https://www.linkedin.com/in/arturoemanuelguerraiturres/)
 
+👤 **Author2**
+
+- GitHub: [@HFG43](https://github.com/HFG43)
+- Twitter: [@HFG43](https://twitter.com/HFG_43)
+- LinkedIn: [@Hernán Güemes](https://www.linkedin.com/in/hern%C3%A1n-g%C3%BCemes-a440591b/)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
@@ -215,7 +221,7 @@ Give a ⭐ if you liked this project!
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-I thank Microverse for this fantastic opportunity, the code reviewers for their advice and time 🏆
+I thank Microverse for this fantastic opportunity, the code reviewers for their advice and time and to my fantastic coding partner [@HFG43](https://github.com/HFG43) 🏆
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
