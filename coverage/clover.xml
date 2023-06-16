@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1686867480735" clover="3.2.0">
-  <project timestamp="1686867480735" name="All files">
-    <metrics statements="26" coveredstatements="17" conditionals="8" coveredconditionals="2" methods="12" coveredmethods="9" elements="46" coveredelements="28" complexity="0" loc="26" ncloc="26" packages="2" files="3" classes="3"/>
+<coverage generated="1686878830254" clover="3.2.0">
+  <project timestamp="1686878830256" name="All files">
+    <metrics statements="30" coveredstatements="30" conditionals="8" coveredconditionals="7" methods="14" coveredmethods="14" elements="52" coveredelements="51" complexity="0" loc="30" ncloc="30" packages="2" files="4" classes="4"/>
     <package name="Jest">
-      <metrics statements="24" coveredstatements="15" conditionals="8" coveredconditionals="2" methods="11" coveredmethods="8"/>
+      <metrics statements="28" coveredstatements="28" conditionals="8" coveredconditionals="7" methods="13" coveredmethods="13"/>
       <file name="TaskManager-toTest.js" path="D:\D-desktop\courses-folders\MICROVERSE\Module-2-JS-Networking\projects\Task-Manager\src\Jest\TaskManager-toTest.js">
-        <metrics statements="20" coveredstatements="11" conditionals="8" coveredconditionals="2" methods="10" coveredmethods="7"/>
-        <line num="3" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="7" count="8" type="stmt"/>
-        <line num="11" count="6" type="stmt"/>
-        <line num="16" count="6" type="stmt"/>
-        <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
+        <metrics statements="20" coveredstatements="20" conditionals="8" coveredconditionals="7" methods="10" coveredmethods="10"/>
+        <line num="3" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="7" count="16" type="stmt"/>
+        <line num="11" count="10" type="stmt"/>
+        <line num="16" count="10" type="stmt"/>
+        <line num="20" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="21" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
         <line num="38" count="2" type="stmt"/>
         <line num="39" count="2" type="stmt"/>
         <line num="40" count="2" type="stmt"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="45" count="2" type="stmt"/>
-        <line num="50" count="4" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
+        <line num="44" count="3" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
+        <line num="50" count="7" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
       </file>
       <file name="addNewTasktoDOM.js" path="D:\D-desktop\courses-folders\MICROVERSE\Module-2-JS-Networking\projects\Task-Manager\src\Jest\addNewTasktoDOM.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -34,13 +34,20 @@
         <line num="5" count="2" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
+      <file name="injectFullTaskListOnDOM.js" path="D:\D-desktop\courses-folders\MICROVERSE\Module-2-JS-Networking\projects\Task-Manager\src\Jest\injectFullTaskListOnDOM.js">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+      </file>
     </package>
     <package name="js.markup-templates">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="create-task-template.js" path="D:\D-desktop\courses-folders\MICROVERSE\Module-2-JS-Networking\projects\Task-Manager\src\js\markup-templates\create-task-template.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
       </file>
     </package>
   </project>
