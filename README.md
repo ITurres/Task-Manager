@@ -153,7 +153,9 @@ To run the project, execute the following command:
 
 To run tests, run the following command:
 
-- Not Applicable
+```sh
+ npm test
+```
 
 ### Deployment
 
